@@ -83,7 +83,7 @@ def add_dish():
         db_sess.merge(current_user)
         db_sess.commit()
         return redirect('/')
-    return render_template('dishes.html', title='Добавление новости',
+    return render_template('dishes.html', title='Добавление блюда',
                            form=form)
 
 
@@ -119,7 +119,7 @@ def edit_dish(id):
                            title='Редактирование блюда', form=form)
 
 
-@app.route('/news_delete/<int:id>', methods=['GET', 'POST'])
+@app.route('/dish_delete/<int:id>', methods=['GET', 'POST'])
 @login_required
 def news_delete(id):
     db_sess = db_session.create_session()
