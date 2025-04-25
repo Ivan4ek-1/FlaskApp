@@ -7,12 +7,20 @@
 {% endif %}
 {% for item in dishes%}
 <div class="col-md6 border rounded">
-    <h2>{{item.title}}</h2>
+    <h2>{{item.title}}</h2><br>
+    <img src='/images/{{item.image_name}}' alt="">
     <div>
         {{item.content}}
     </div>
     <div>
-        Автор - {{item.user.login}}, Дата создания блюда - {{item.created_date}}
+        Автор - {{item.user.login}}, Дата создания блюда - {{item.created_date}}<br>
+        Рейтинг: {{item.rating}}
+        {% for star in range(item.rating|int) %}
+        <img src="static/images/fullstar.png">
+        {% endfor %}
+        {% for star in range(5-item.rating|int) %}
+        <img src="static/images/baldstar.png">
+        {% endfor %}
     </div>
     {% if current_user.is_authenticated and current_user == item.user %}
     <div>

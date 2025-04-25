@@ -1,5 +1,6 @@
+import io
 import secrets
-from flask import Flask, render_template, redirect, request, make_response, session, abort, jsonify
+from flask import Flask, render_template, redirect, request, make_response, session, abort, jsonify, send_file
 from data import db_session
 from data.users import User
 from data.dishes import Dishes
@@ -26,7 +27,7 @@ def load_user(user_id):
 def index():
     db_sess = db_session.create_session()
     dishes = db_sess.query(Dishes).all()
-    return render_template("main_page.html", dishes=dishes)
+    return render_template("index.html", dishes=dishes)
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -78,7 +79,9 @@ def add_dish():
         dishes.title = form.title.data
         dishes.content = form.content.data
         dishes.created_date = form.created_date.data
-        dishes.image = form.image.data
+        dishes.image = form.image.data.read()
+        dishes.image_name = form.image.data.filename
+        dishes.rating = 0
         current_user.dishes.append(dishes)
         db_sess.merge(current_user)
         db_sess.commit()
@@ -149,6 +152,16 @@ def not_found(error):
 def bad_request(_):
     return make_response(jsonify({'error': 'Bad Request'}), 400)
 
+
+@app.route('/images/<filename>')
+def get_image(filename):
+    db_sess = db_session.create_session()
+    dish = db_sess.query(Dishes).filter(Dishes.image_name == filename).first()
+    return send_file(
+        io.BytesIO(dish.image),
+        mimetype='image/jpeg',
+        as_attachment=True,
+        download_name=filename)
 
 if __name__ == '__main__':
     app.run(host="127.0.0.1", port=8080, debug=True)
