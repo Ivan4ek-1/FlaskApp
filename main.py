@@ -124,7 +124,7 @@ def edit_dish(id):
 
 @app.route('/dish_delete/<int:id>', methods=['GET', 'POST'])
 @login_required
-def news_delete(id):
+def dish_delete(id):
     db_sess = db_session.create_session()
     dishes = db_sess.query(Dishes).filter(Dishes.id == id,
                                       Dishes.user == current_user).first()
