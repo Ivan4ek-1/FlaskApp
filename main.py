@@ -101,8 +101,7 @@ def edit_dish(id):
         if dishes:
             form.title.data = dishes.title
             form.content.data = dishes.content
-            form.created_date.data = dishes.created_date
-            form.image.data = dishes.image
+            form.image.data = dishes.image_name
         else:
             abort(404)
     if form.validate_on_submit():
@@ -112,8 +111,8 @@ def edit_dish(id):
         if dishes:
             dishes.title = form.title.data
             dishes.content = form.content.data
-            dishes.created_date = form.created_date.data
-            dishes.image = form.image.data
+            dishes.image = form.image.data.read()
+            dishes.image_name = form.image.data.filename
             db_sess.commit()
             return redirect('/')
         else:
@@ -135,6 +134,21 @@ def dish_delete(id):
         abort(404)
     return redirect('/')
 
+
+@app.route("/test/test", methods=["GET", "POST"])
+@login_required
+def testtest():
+    rate = int(request.json['rating']) + 1
+    id = int(request.json['id'])
+    db_sess = db_session.create_session()
+    dishes = db_sess.query(Dishes).filter(Dishes.id == id).first()
+    if dishes:
+        dishes.rating = (dishes.rating + rate) / 2
+        db_sess.commit()
+    else:
+        abort(404)
+    print(rate)
+    return ""
 
 @app.route('/logout')
 @login_required
