@@ -45,4 +45,6 @@
 4. io - для конвертации изображения в байты.
 5. datetime - для удобной записи дат.
 
+Презентация:
+https://docs.google.com/presentation/d/1m6y1W6eco4gN2qJBZtar2TfUJKynpPIJ/edit?usp=sharing&ouid=107775468984544918850&rtpof=true&sd=true
 
