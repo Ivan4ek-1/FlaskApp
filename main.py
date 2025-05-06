@@ -1,6 +1,7 @@
 import io
 import secrets
 from flask import Flask, render_template, redirect, request, make_response, session, abort, jsonify, send_file
+from datetime import *
 from data import db_session
 from data.users import User
 from data.dishes import Dishes
@@ -78,7 +79,7 @@ def add_dish():
         dishes = Dishes()
         dishes.title = form.title.data
         dishes.content = form.content.data
-        dishes.created_date = form.created_date.data
+        dishes.created_date = datetime.now().replace(microsecond=0)
         dishes.image = form.image.data.read()
         dishes.image_name = form.image.data.filename
         dishes.rating = 0
@@ -113,6 +114,7 @@ def edit_dish(id):
             dishes.content = form.content.data
             dishes.image = form.image.data.read()
             dishes.image_name = form.image.data.filename
+            dishes.created_date = datetime.now().replace(microsecond=0)
             db_sess.commit()
             return redirect('/')
         else:
@@ -135,9 +137,9 @@ def dish_delete(id):
     return redirect('/')
 
 
-@app.route("/test/test", methods=["GET", "POST"])
+@app.route("/test/rate", methods=["GET", "POST"])
 @login_required
-def testtest():
+def rate():
     rate = int(request.json['rating']) + 1
     id = int(request.json['id'])
     db_sess = db_session.create_session()
@@ -148,7 +150,7 @@ def testtest():
     else:
         abort(404)
     print(rate)
-    return ""
+    return redirect('/')
 
 @app.route('/logout')
 @login_required

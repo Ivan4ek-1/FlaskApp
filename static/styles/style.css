@@ -2,6 +2,10 @@ h1 {
     text-indent: 10px
 }
 
+h2 {
+    text-indent: 20px
+}
+
 div.container {
             font-size: 28px;
 }
@@ -15,7 +19,7 @@ div.desc {
 }
 
 img.food {
-    width:  700px;
-    height: 400px;
+    height: 500px;
     background-size: cover;
 }
+

@@ -8,7 +8,7 @@
 {% for item in dishes%}
 <div class="col-md6 border rounded">
     <h2>{{item.title}}</h2>
-    <img src='/images/{{item.image_name}}' alt="" class="food">
+    <img src='/images/{{item.image_name}}' alt="Изображения нет" class="food">
     <div class="desc">
         {{item.content}}
     </div>
@@ -18,10 +18,10 @@
             Рейтинг: {{"%.2f"|format(item.rating)}}
             {% for star in range(5) %}
                 {% if star < item.rating|round|int %}
-                <a href="/login"><img src="static/images/fullstar.png" width="40" height="40" class="gg"
+                <a href="/"><img src="static/images/fullstar.png" width="40" height="40" class="gg"
                                       data-number="{{star}}" data-dish-id="{{item.id}}"></a>
                 {% else %}
-                <a href="/login"><img src="static/images/baldstar.png" width="40" height="40" class="gg"
+                <a href="/"><img src="static/images/baldstar.png" width="40" height="40" class="gg"
                                       data-dish-id="{{item.id}}" data-number="{{star}}"></a>
                 {% endif %}
             {% endfor %}
@@ -37,6 +37,6 @@
         </a>
     </div>
 {% endif %}
-</div>
+</div><br>
 {% endfor %}
 {% endblock %}
